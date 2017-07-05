@@ -25,7 +25,7 @@ public class KafkaServiceRecordProducerImpl implements KafkaServiceRecordProduce
 
         System.out.println(jsonObject);
 
-      //  producer.send(new ProducerRecord(topic, jsonObject));
+      producer.send(new ProducerRecord(topic, jsonObject));
         // producer.close();
 
     }

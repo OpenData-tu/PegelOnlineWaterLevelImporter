@@ -26,7 +26,7 @@ public class BatchConfiguration {
 
     @Bean
     ItemReader<WaterLevel> reader(RestTemplate restTemplate) {
-        return new WaterLevelCustomJsonItemReader("http://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?includeTimeseries=true&includeCurrentMeasurement=true", restTemplate);
+        return new WaterLevelCustomJsonItemReader("https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?timeseries=W&includeTimeseries=true&includeCurrentMeasurement=true", restTemplate);
     }
 
     @Bean

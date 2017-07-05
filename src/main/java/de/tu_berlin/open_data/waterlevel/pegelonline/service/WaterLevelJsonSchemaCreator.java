@@ -52,12 +52,17 @@ public class WaterLevelJsonSchemaCreator implements JsonSchemaCreator {
         firstLevelChild.put("stateMnwMhw", waterLevelItem.getTimeseries().get(0).getCurrentMeasurement().getStateMnwMhw());
         firstLevelChild.put("stateNswHsw", waterLevelItem.getTimeseries().get(0).getCurrentMeasurement().getStateNswHsw());
 
-        secondLevelChild = nodeFactory.objectNode();
-//        secondLevelChild.put("gaugeZeroUnit", waterLevelItem.getTimeseries().get(0).getGaugeZero().getUnit());
-//        secondLevelChild.put("gaugeZeroValue", waterLevelItem.getTimeseries().get(0).getGaugeZero().getValue());
- //       secondLevelChild.put("gaugeZeroValidForm", waterLevelItem.getTimeseries().get(0).getGaugeZero().getValidFrom());
 
-        firstLevelChild.set("gaugeZero", secondLevelChild);
+        if (waterLevelItem.getTimeseries().get(0).getGaugeZero() != null){
+            secondLevelChild = nodeFactory.objectNode();
+            secondLevelChild.put("gaugeZeroUnit", waterLevelItem.getTimeseries().get(0).getGaugeZero().getUnit());
+            secondLevelChild.put("gaugeZeroValue", waterLevelItem.getTimeseries().get(0).getGaugeZero().getValue());
+            secondLevelChild.put("gaugeZeroValidForm", waterLevelItem.getTimeseries().get(0).getGaugeZero().getValidFrom());
+            firstLevelChild.set("gaugeZero", secondLevelChild);
+        }
+
+
+
 
         mainObject.set("extra", firstLevelChild);
 
