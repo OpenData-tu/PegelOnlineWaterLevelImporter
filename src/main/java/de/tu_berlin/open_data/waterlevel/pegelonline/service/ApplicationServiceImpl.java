@@ -41,7 +41,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public String toISODateFormat(String date) {
-        return date + "Z";
+        return date + "";
     }
 
     @Override
