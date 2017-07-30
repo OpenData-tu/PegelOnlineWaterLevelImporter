@@ -3,8 +3,10 @@ package de.tu_berlin.ise.open_data.waterlevel.service;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import de.tu_berlin.ise.open_data.library.service.JsonStringBuilder;
 import de.tu_berlin.ise.open_data.waterlevel.model.Schema;
 import de.tu_berlin.ise.open_data.waterlevel.model.WaterLevel;
+import org.json.JSONException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,59 +16,22 @@ import org.springframework.stereotype.Service;
 public class WaterLevelJsonSchemaCreator implements JsonSchemaCreator {
 
     @Override
-    public String create(Schema schema) {
-        WaterLevel waterLevelItem = (WaterLevel) schema;
+    public String create(Schema schema) throws JSONException {
+        WaterLevel item = (WaterLevel) schema;
 
-        JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
+        JsonStringBuilder jsonBuilder = new JsonStringBuilder();
 
-        ObjectNode mainObject = nodeFactory.objectNode();
+        jsonBuilder.setSourceId(item.getSourceId());
+        jsonBuilder.setDevice(item.getLongname());
+        jsonBuilder.setTimestamp(item.getTimeseries().get(0).getCurrentMeasurement().getTimestamp());
+        jsonBuilder.setLocation(item.getLatitude() + "", item.getLongitude() + "");
+        jsonBuilder.setLicense(item.getLicense());
 
-        mainObject.put("source_id", "pegelonline_wsw_de");
-        mainObject.put("device", waterLevelItem.getLongname());
-        mainObject.put("timestamp", waterLevelItem.getTimeseries().get(0).getCurrentMeasurement().getTimestamp());
+        jsonBuilder.setSensor("waterLevel", "unknown", item.getTimeseries().get(0).getCurrentMeasurement().getValue() + "");
 
-
-        ObjectNode firstLevelChild = nodeFactory.objectNode();
-
-        firstLevelChild.put("lat", waterLevelItem.getLatitude());
-        firstLevelChild.put("lon", waterLevelItem.getLongitude());
-
-        mainObject.set("location", firstLevelChild);
-
-        mainObject.put("license", "find out");
-
-        firstLevelChild = nodeFactory.objectNode();
-
-        ObjectNode secondLevelChild = nodeFactory.objectNode();
-        secondLevelChild.put("sensor", "");
-        secondLevelChild.put("observation_value", waterLevelItem.getTimeseries().get(0).getCurrentMeasurement().getValue());
-        firstLevelChild.set("waterLevel", secondLevelChild);
+        jsonBuilder.setExtra(item.getTimeseries().get(0));
 
 
-        mainObject.set("sensors", firstLevelChild);
-        firstLevelChild = nodeFactory.objectNode();
-
-        firstLevelChild.put("measurementUnit", waterLevelItem.getTimeseries().get(0).getUnit());
-        firstLevelChild.put("equidistance", waterLevelItem.getTimeseries().get(0).getEquidistance());
-        firstLevelChild.put("trend", waterLevelItem.getTimeseries().get(0).getCurrentMeasurement().getTrend());
-        firstLevelChild.put("stateMnwMhw", waterLevelItem.getTimeseries().get(0).getCurrentMeasurement().getStateMnwMhw());
-        firstLevelChild.put("stateNswHsw", waterLevelItem.getTimeseries().get(0).getCurrentMeasurement().getStateNswHsw());
-
-
-        if (waterLevelItem.getTimeseries().get(0).getGaugeZero() != null){
-            secondLevelChild = nodeFactory.objectNode();
-            secondLevelChild.put("gaugeZeroUnit", waterLevelItem.getTimeseries().get(0).getGaugeZero().getUnit());
-            secondLevelChild.put("gaugeZeroValue", waterLevelItem.getTimeseries().get(0).getGaugeZero().getValue());
-            secondLevelChild.put("gaugeZeroValidForm", waterLevelItem.getTimeseries().get(0).getGaugeZero().getValidFrom());
-            firstLevelChild.set("gaugeZero", secondLevelChild);
-        }
-
-
-
-
-        mainObject.set("extra", firstLevelChild);
-
-
-        return mainObject.toString();
+        return jsonBuilder.build();
     }
 }

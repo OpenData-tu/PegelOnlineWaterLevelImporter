@@ -2,6 +2,7 @@ package de.tu_berlin.ise.open_data.waterlevel.batch;
 
 
 import de.tu_berlin.ise.open_data.library.batch.*;
+import de.tu_berlin.ise.open_data.waterlevel.config.ResourceProperties;
 import de.tu_berlin.ise.open_data.waterlevel.model.WaterLevel;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -33,21 +34,23 @@ public class BatchConfiguration {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private ResourceProperties resourceProperties;
+
 
     @Bean
-    ItemReader<WaterLevel> reader() {
-        return new WaterLevelCustomJsonItemReader("https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" +
-                "timeseries=W&includeTimeseries=true&includeCurrentMeasurement=true", restTemplate);
+    ItemReader<WaterLevel> itemReader() {
+        return new WaterLevelCustomJsonItemReader(resourceProperties.getUrl(), restTemplate);
     }
 
     @Bean
-    ItemProcessor<WaterLevel, String> processor() {
+    ItemProcessor<WaterLevel, String> itemProcessor() {
         return new WaterLevelItemProcessor();
     }
 
     @Bean
-    ItemWriter<String> writer() {
-        return new WaterLevelItemWriter();
+    ItemWriter<String> itemWriter() {
+        return new JsonItemWriter();
     }
 
     @Bean
@@ -59,9 +62,9 @@ public class BatchConfiguration {
     Step step1() {
         return stepBuilderFactory.get("step1").listener(stepExecutionListener())
                 .<WaterLevel, String>chunk(100)
-                .reader(reader())
-                .processor(processor())
-                .writer(writer())
+                .reader(itemReader())
+                .processor(itemProcessor())
+                .writer(itemWriter())
                 .build();
     }
 

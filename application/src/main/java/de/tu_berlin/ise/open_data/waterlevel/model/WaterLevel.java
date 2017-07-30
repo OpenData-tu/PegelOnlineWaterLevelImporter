@@ -19,6 +19,11 @@ public class WaterLevel extends Schema {
     private Water water;
     private List<TimeSeriesObject> timeseries;
 
+
+    private final String sourceId = "luftdaten_brandenburg_de";
+    private final String license = "find out";
+
+
     public String getUuid() {
         return uuid;
     }
@@ -97,6 +102,14 @@ public class WaterLevel extends Schema {
 
     public void setTimeseries(List<TimeSeriesObject> timeseries) {
         this.timeseries = timeseries;
+    }
+
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    public String getLicense() {
+        return license;
     }
 
     @Override

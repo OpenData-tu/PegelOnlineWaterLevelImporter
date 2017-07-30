@@ -1,7 +1,7 @@
 package de.tu_berlin.ise.open_data.waterlevel.batch;
 
+import de.tu_berlin.ise.open_data.library.service.ApplicationService;
 import de.tu_berlin.ise.open_data.waterlevel.model.WaterLevel;
-import de.tu_berlin.ise.open_data.waterlevel.service.ApplicationService;
 import de.tu_berlin.ise.open_data.waterlevel.service.JsonSchemaCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public class WaterLevelItemProcessor implements ItemProcessor<WaterLevel, String
 
     @Override
     public String process(WaterLevel item) throws Exception {
-        item.getTimeseries().get(0).getCurrentMeasurement().setTimestamp(applicationService.toISODateFormat(item.getTimeseries().get(0).getCurrentMeasurement().getTimestamp()));
+
        return jsonSchemaCreator.create(item);
 
     }

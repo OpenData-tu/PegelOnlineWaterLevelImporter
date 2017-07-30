@@ -31,7 +31,6 @@ class WaterLevelCustomJsonItemReader implements ItemReader<WaterLevel> {
 
     @Override
     public WaterLevel read() throws Exception {
-      //  LOGGER.info("Reading the information of the next water level");
 
         if (waterLevelDataIsNotInitialized()) {
             waterLevelList = waterLevelDataFromAPI();
@@ -44,8 +43,6 @@ class WaterLevelCustomJsonItemReader implements ItemReader<WaterLevel> {
             nextWaterLevelIndex++;
         }
 
-        LOGGER.info("Found Water Level: {}", nextWaterLevel);
-
         return nextWaterLevel;
     }
 
@@ -54,7 +51,6 @@ class WaterLevelCustomJsonItemReader implements ItemReader<WaterLevel> {
     }
 
     private List<WaterLevel> waterLevelDataFromAPI() {
-       // LOGGER.debug("Fetching water level data from an external API by using the url: {}", apiUrl);
 
         ResponseEntity<WaterLevel[]> response = restTemplate.getForEntity(apiUrl, WaterLevel[].class);
         WaterLevel[] waterLevels = response.getBody();

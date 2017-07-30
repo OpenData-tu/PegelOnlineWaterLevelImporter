@@ -7,14 +7,12 @@ import org.springframework.context.annotation.Configuration;
  * Created by ahmadjawid on 6/30/17.
  */
 
-/* for now this class is not used temporarily*/
 @Configuration
 @ConfigurationProperties("resource")
 public class ResourceProperties {
-    /**
-     * Path to the resource url (url contains all the files for one specific day) - mandatory
-     */
-    private String url;
+
+    private String url = "https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json?" +
+            "timeseries=W&includeTimeseries=true&includeCurrentMeasurement=true";
 
     public String getUrl() {
         return url;
