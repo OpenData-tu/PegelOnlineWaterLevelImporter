@@ -40,12 +40,12 @@ public class BatchConfiguration {
 
 
     /**
-     * Register a bean of {@link WaterLevelCustomJsonItemReader} which defines how to read data from the source
-     * @return WaterLevelCustomJsonItemReader
+     * Register a bean of {@link CustomRestItemReader} which defines how to read data from the source
+     * @return CustomRestItemReader
      * */
     @Bean
     ItemReader<WaterLevel> itemReader() {
-        return new WaterLevelCustomJsonItemReader(resourceProperties.getUrl(), restTemplate);
+        return new CustomRestItemReader(resourceProperties.getUrl(), restTemplate);
     }
 
 

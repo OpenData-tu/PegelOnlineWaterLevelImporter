@@ -14,9 +14,9 @@ import java.util.List;
  * Created by ahmadjawid on 7/2/17.
  * Includes a read method which specifies how to read data from the api
  */
-class WaterLevelCustomJsonItemReader implements ItemReader<WaterLevel> {
+class CustomRestItemReader implements ItemReader<WaterLevel> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WaterLevelCustomJsonItemReader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomRestItemReader.class);
 
     private final String apiUrl;
     private final RestTemplate restTemplate;
@@ -25,14 +25,14 @@ class WaterLevelCustomJsonItemReader implements ItemReader<WaterLevel> {
     private List<WaterLevel> waterLevelList;
 
     //Set parameters
-    WaterLevelCustomJsonItemReader(String apiUrl, RestTemplate restTemplate) {
+    CustomRestItemReader(String apiUrl, RestTemplate restTemplate) {
         this.apiUrl = apiUrl;
         this.restTemplate = restTemplate;
         nextWaterLevelIndex = 0;
     }
 
     /**
-     * Read the items one by one and return them as a list.
+     * Read the items one by one and return them.
      * Stop when null is returned
      * @return WaterLevel
      * */

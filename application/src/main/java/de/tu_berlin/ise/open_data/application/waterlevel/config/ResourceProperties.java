@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Created by ahmadjawid on 6/30/17.
- * *Properties of resource are provided here.
+ * Properties of resource are provided here.
  * These values are overridden by application.properties overridden by environment variables
  */
 
