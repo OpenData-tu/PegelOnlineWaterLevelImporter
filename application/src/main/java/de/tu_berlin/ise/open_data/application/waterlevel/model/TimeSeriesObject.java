@@ -1,7 +1,8 @@
-package de.tu_berlin.ise.open_data.waterlevel.model;
+package de.tu_berlin.ise.open_data.application.waterlevel.model;
 
 /**
  * Created by ahmadjawid on 7/2/17.
+ * Used to parse data from the source
  */
 public class TimeSeriesObject {
 

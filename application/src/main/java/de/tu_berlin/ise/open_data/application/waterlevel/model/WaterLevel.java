@@ -1,13 +1,20 @@
-package de.tu_berlin.ise.open_data.waterlevel.model;
+package de.tu_berlin.ise.open_data.application.waterlevel.model;
+
+import de.tu_berlin.ise.open_data.library.model.Schema;
 
 import java.util.List;
 
 /**
  * Created by ahmadjawid on 7/2/17.
+ *All necessary fields for parsing data from source are defined here.
+ * Final fields are not used when parsing from file.
  */
 
 public class WaterLevel extends Schema {
 
+    /**
+     * The order of declaring fields should be the same as in response to parse correctly
+     */
     private String uuid;
     private String number;
     private String shortname;
@@ -19,8 +26,14 @@ public class WaterLevel extends Schema {
     private Water water;
     private List<TimeSeriesObject> timeseries;
 
+    /**
+     * Declared as final to skip the field when parsing csv file
+     */
+    private final String sourceId = "pegelonline_wsv_de";
 
-    private final String sourceId = "luftdaten_brandenburg_de";
+    /**
+     * Declared as final to skip the field when parsing csv file
+     */
     private final String license = "find out";
 
 
